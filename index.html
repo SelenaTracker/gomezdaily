@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selena Gomez Stream Tracker</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="https://img.icons8.com/color/96/pop-music.png">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <i class="fas fa-music"></i>
+                    <span>Selena Stream Tracker</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="active"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="busca.html"><i class="fas fa-search"></i> Buscar Músicas</a></li>
+                    <li><a href="calculadora.html"><i class="fas fa-calculator"></i> Calculadora</a></li>
+                    <li><a href="votacao.html"><i class="fas fa-vote-yea"></i> Votação</a></li>
+                    <li><a href="admin.html"><i class="fas fa-user-cog"></i> Admin</a></li>
+                    <li><a href="#" id="loginBtn"><i class="fas fa-user"></i> Login</a></li>
+                </ul>
+                <div class="hamburger">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="login-modal" id="loginModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2><i class="fas fa-sign-in-alt"></i> Login</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Senha:</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Entrar</button>
+                <p class="modal-info">Novo usuário? Basta fazer login para criar conta!</p>
+                <div class="points-info">
+                    <i class="fas fa-gem"></i>
+                    <span>Ganhe pontos diariamente completando missões!</span>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <main class="container">
+        <!-- Banner Principal -->
+        <section class="banner">
+            <div class="banner-content">
+                <h1><i class="fas fa-star"></i> Selena Gomez Stream Tracker</h1>
+                <p>Acompanhe as metas de streams e ajude a aumentar os números da Selena!</p>
+                <div class="banner-stats">
+                    <div class="stat-card">
+                        <i class="fas fa-play-circle"></i>
+                        <h3 id="dailyTotal">0</h3>
+                        <p>Streams Hoje</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-chart-line"></i>
+                        <h3 id="totalStreams">0</h3>
+                        <p>Total de Streams</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-bullseye"></i>
+                        <h3 id="currentGoal">0</h3>
+                        <p>Meta Atual</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Divisão por Artista -->
+        <section class="artist-split">
+            <div class="split-card">
+                <div class="split-header selena">
+                    <i class="fas fa-user"></i>
+                    <h2>Selena Gomez</h2>
+                </div>
+                <div class="split-stats">
+                    <p>Streams Diários: <span id="selenaDaily">0</span></p>
+                    <p>Streams Totais: <span id="selenaTotal">0</span></p>
+                </div>
+            </div>
+            <div class="split-card">
+                <div class="split-header scene">
+                    <i class="fas fa-users"></i>
+                    <h2>Selena & The Scene</h2>
+                </div>
+                <div class="split-stats">
+                    <p>Streams Diários: <span id="sceneDaily">0</span></p>
+                    <p>Streams Totais: <span id="sceneTotal">0</span></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Metas Inteligentes -->
+        <section class="goals-section">
+            <h2><i class="fas fa-bullseye"></i> Sistema de Metas</h2>
+            <div class="goals-info">
+                <p>Nível atual: <span id="currentLevel">Carregando...</span></p>
+                <p>Próxima meta: <span id="nextGoal">0</span> streams</p>
+                <p>Meta atual: <span id="currentTarget">0</span> / <span id="goalTarget">0</span></p>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="goalProgress"></div>
+                </div>
+            </div>
+            <div class="levels-grid">
+                <!-- Níveis serão gerados por JavaScript -->
+            </div>
+        </section>
+
+        <!-- Foco do Dia -->
+        <section class="focus-day">
+            <h2><i class="fas fa-crosshairs"></i> Foco do Dia</h2>
+            <div class="focus-card">
+                <div class="focus-header">
+                    <h3 id="focusSong">Carregando música...</h3>
+                    <span class="focus-badge">Mais Votada</span>
+                </div>
+                <p class="focus-desc">Essa é a música escolhida pela comunidade para focarmos hoje! Vamos juntos bater a meta diária!</p>
+                <div class="focus-stats">
+                    <div class="focus-stat">
+                        <i class="fas fa-play"></i>
+                        <span id="focusStreams">0</span>
+                        <small>Streams hoje</small>
+                    </div>
+                    <div class="focus-stat">
+                        <i class="fas fa-bullseye"></i>
+                        <span id="focusGoal">0</span>
+                        <small>Meta diária</small>
+                    </div>
+                    <div class="focus-stat">
+                        <i class="fas fa-fire"></i>
+                        <span id="focusNeeded">0</span>
+                        <small>Faltam</small>
+                    </div>
+                </div>
+                <div class="focus-actions">
+                    <button class="btn btn-primary" onclick="simulateFocusGoal()">
+                        <i class="fas fa-chart-line"></i> Simular Meta
+                    </button>
+                    <a href="https://open.spotify.com/playlist/37i9dQZF1DX4PP3DA4J0N8" target="_blank" class="btn btn-secondary" id="playlistBtn">
+                        <i class="fab fa-spotify"></i> Ouvir Playlist
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Top Álbuns -->
+        <section class="top-albums">
+            <h2><i class="fas fa-album"></i> Top Álbuns</h2>
+            <div class="albums-grid" id="albumsGrid">
+                <!-- Álbuns serão gerados por JavaScript -->
+            </div>
+        </section>
+
+        <!-- Metas Batidas Recentemente -->
+        <section class="recent-goals">
+            <h2><i class="fas fa-trophy"></i> Metas Batidas Recentemente</h2>
+            <div class="goals-list" id="recentGoals">
+                <!-- Metas serão carregadas por JavaScript -->
+                <div class="empty-goals">
+                    <i class="fas fa-flag-checkered"></i>
+                    <p>Nenhuma meta batida recentemente. Continue streaming!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ranking de Usuários -->
+        <section class="user-ranking">
+            <h2><i class="fas fa-crown"></i> Ranking Semanal</h2>
+            <div class="ranking-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Posição</th>
+                            <th>Usuário</th>
+                            <th>Pontos</th>
+                            <th>Missões</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rankingBody">
+                        <!-- Ranking será carregado por JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Adsense Placeholder -->
+        <div class="adsense-ad">
+            <div class="ad-label">Publicidade</div>
+            <div class="ad-content">
+                <!-- Espaço para anúncios do Google Adsense -->
+                <p>Espaço reservado para anúncios</p>
+                <small>O anúncio ajuda a manter o site funcionando</small>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3><i class="fas fa-music"></i> Selena Stream Tracker</h3>
+                <p>Acompanhe, participe e ajude a alcançar as metas de streams da Selena Gomez!</p>
+            </div>
+            <div class="footer-links">
+                <a href="index.html"><i class="fas fa-home"></i> Home</a>
+                <a href="termos.html"><i class="fas fa-file-contract"></i> Termos de Uso</a>
+                <a href="privacidade.html"><i class="fas fa-shield-alt"></i> Privacidade</a>
+                <a href="contato.html"><i class="fas fa-envelope"></i> Contato</a>
+                <a href="votacao.html"><i class="fas fa-vote-yea"></i> Votação</a>
+                <a href="calculadora.html"><i class="fas fa-calculator"></i> Calculadora</a>
+                <a href="#" id="rankingLink"><i class="fas fa-crown"></i> Ranking</a>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Selena Gomez Stream Tracker. Site não oficial criado por fãs.</p>
+                <p class="disclaimer">Este site não tem afiliação com Selena Gomez, Interscope Records ou Spotify.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/home.js"></script>
+    <script src="js/login.js"></script>
+</body>
+</html>
