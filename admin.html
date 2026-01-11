@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Admin - Selena Stream Tracker</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .admin-warning {
+            background: linear-gradient(135deg, #ff9800, #f44336);
+            color: white;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .admin-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 1rem;
+        }
+        
+        .tab-btn {
+            padding: 0.75rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: none;
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .tab-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .admin-form {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .admin-table {
+            overflow-x: auto;
+            margin-top: 1rem;
+        }
+        
+        .admin-table table {
+            width: 100%;
+            min-width: 800px;
+        }
+        
+        .admin-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .action-btn {
+            padding: 0.25rem 0.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .edit-btn {
+            background: var(--warning-color);
+            color: white;
+        }
+        
+        .delete-btn {
+            background: var(--danger-color);
+            color: white;
+        }
+        
+        .update-btn {
+            background: var(--success-color);
+            color: white;
+        }
+        
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card-admin {
+            background: rgba(138, 43, 226, 0.1);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            border: 2px solid var(--primary-color);
+        }
+        
+        .stat-card-admin i {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .quick-update-form {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <i class="fas fa-music"></i>
+                    <span>Selena Stream Tracker</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="busca.html"><i class="fas fa-search"></i> Buscar Músicas</a></li>
+                    <li><a href="calculadora.html"><i class="fas fa-calculator"></i> Calculadora</a></li>
+                    <li><a href="votacao.html"><i class="fas fa-vote-yea"></i> Votação</a></li>
+                    <li><a href="admin.html" class="active"><i class="fas fa-user-cog"></i> Admin</a></li>
+                    <li><a href="#" id="loginBtn"><i class="fas fa-user"></i> Login</a></li>
+                </ul>
+                <div class="hamburger">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="admin-warning">
+            <i class="fas fa-exclamation-triangle"></i>
+            <h2>ÁREA DE CONTROLE ADMINISTRATIVO</h2>
+            <p>Esta área é destinada à atualização diária dos dados do site</p>
+        </div>
+        
+        <!-- Abas do Admin -->
+        <div class="admin-tabs">
+            <button class="tab-btn active" onclick="switchTab('music')">
+                <i class="fas fa-music"></i> Gerenciar Músicas
+            </button>
+            <button class="tab-btn" onclick="switchTab('voting')">
+                <i class="fas fa-vote-yea"></i> Configurar Votação
+            </button>
+            <button class="tab-btn" onclick="switchTab('stats')">
+                <i class="fas fa-chart-bar"></i> Estatísticas
+            </button>
+            <button class="tab-btn" onclick="switchTab('system')">
+                <i class="fas fa-cog"></i> Sistema
+            </button>
+        </div>
+        
+        <!-- Estatísticas Rápidas -->
+        <div class="admin-stats">
+            <div class="stat-card-admin">
+                <i class="fas fa-headphones"></i>
+                <h3 id="adminTotalSongs">0</h3>
+                <p>Músicas Cadastradas</p>
+            </div>
+            <div class="stat-card-admin">
+                <i class="fas fa-play-circle"></i>
+                <h3 id="adminTotalStreams">0</h3>
+                <p>Total de Streams</p>
+            </div>
+            <div class="stat-card-admin">
+                <i class="fas fa-calendar-day"></i>
+                <h3 id="adminDailyStreams">0</h3>
+                <p>Streams Hoje</p>
+            </div>
+            <div class="stat-card-admin">
+                <i class="fas fa-users"></i>
+                <h3 id="adminTotalUsers">0</h3>
+                <p>Usuários Registrados</p>
+            </div>
+        </div>
+        
+        <!-- Tab: Gerenciar Músicas -->
+        <div id="tab-music" class="tab-content active">
+            <h2><i class="fas fa-music"></i> Gerenciar Músicas</h2>
+            <p class="section-subtitle">Adicione novas músicas ou atualize os streams diários</p>
+            
+            <!-- Formulário para adicionar nova música -->
+            <div class="admin-form">
+                <h3><i class="fas fa-plus-circle"></i> Adicionar Nova Música</h3>
+                <form id="addSongForm" onsubmit="return addNewSong(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="newSongName">Nome da Música *</label>
+                            <input type="text" id="newSongName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="newSongAlbum">Álbum *</label>
+                            <input type="text" id="newSongAlbum" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="newSongArtist">Artista *</label>
+                            <select id="newSongArtist" required>
+                                <option value="Selena Gomez">Selena Gomez</option>
+                                <option value="Selena Gomez & The Scene">Selena Gomez & The Scene</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="newSongTotalStreams">Streams Totais Atuais *</label>
+                            <input type="text" id="newSongTotalStreams" 
+                                   placeholder="Ex: 198.951.352" 
+                                   oninput="formatNumberInputAdmin(this)" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="newSongGoal">Meta de Streams *</label>
+                            <input type="text" id="newSongGoal" 
+                                   placeholder="Ex: 200.000.000" 
+                                   oninput="formatNumberInputAdmin(this)" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="newSongDailyGoal">Meta Diária</label>
+                            <input type="text" id="newSongDailyGoal" 
+                                   placeholder="Ex: 150.000" 
+                                   oninput="formatNumberInputAdmin(this)">
+                            <small>Deixe em branco para calcular automaticamente</small>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Adicionar Música
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="clearAddForm()">
+                            <i class="fas fa-eraser"></i> Limpar
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Atualização em massa -->
+            <div class="quick-update-form">
+                <h3><i class="fas fa-sync-alt"></i> Atualização Rápida de Streams</h3>
+                <p>Insira apenas os streams totais do dia atual para cada música. O sistema calculará automaticamente a diferença.</p>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="updateDate">Data da Atualização</label>
+                        <input type="date" id="updateDate" value="${new Date().toISOString().split('T')[0]}">
+                    </div>
+                    <div class="form-group">
+                        <label for="bulkUpdateFile">Ou carregue arquivo CSV</label>
+                        <input type="file" id="bulkUpdateFile" accept=".csv">
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" onclick="prepareBulkUpdate()">
+                    <i class="fas fa-table"></i> Preparar Tabela para Atualização
+                </button>
+            </div>
+            
+            <!-- Tabela de músicas -->
+            <div class="admin-table">
+                <h3><i class="fas fa-list"></i> Todas as Músicas</h3>
+                <table id="adminSongsTable">
+                    <thead>
+                        <tr>
+                            <th>Música</th>
+                            <th>Álbum</th>
+                            <th>Artista</th>
+                            <th>Streams Totais</th>
+                            <th>Streams Diários</th>
+                            <th>Meta</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminSongsTableBody">
+                        <!-- Dados carregados por JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Tab: Configurar Votação -->
+        <div id="tab-voting" class="tab-content">
+            <h2><i class="fas fa-vote-yea"></i> Configurar Votação</h2>
+            
+            <div class="admin-form">
+                <h3><i class="fas fa-cog"></i> Configurar Opções de Votação</h3>
+                <p>Escolha as 4 músicas que estarão disponíveis para votação na próxima rodada:</p>
+                
+                <div id="votingConfigOptions">
+                    <!-- Opções serão geradas por JavaScript -->
+                </div>
+                
+                <div class="form-actions">
+                    <button class="btn btn-primary" onclick="saveVotingConfig()">
+                        <i class="fas fa-save"></i> Salvar Configuração
+                    </button>
+                    <button class="btn btn-secondary" onclick="resetVotingResults()">
+                        <i class="fas fa-redo"></i> Resetar Votação Atual
+                    </button>
+                </div>
+            </div>
+            
+            <div class="admin-form">
+                <h3><i class="fas fa-link"></i> Configurar Playlist</h3>
+                <div class="form-group">
+                    <label for="playlistLink">Link da Playlist Spotify</label>
+                    <input type="url" id="playlistLink" 
+                           placeholder="https://open.spotify.com/playlist/..." 
+                           value="https://open.spotify.com/playlist/37i9dQZF1DX4PP3DA4J0N8">
+                    <small>Esta playlist aparecerá no botão "Ouvir Playlist"</small>
+                </div>
+                <button class="btn btn-primary" onclick="savePlaylistLink()">
+                    <i class="fas fa-save"></i> Salvar Link da Playlist
+                </button>
+            </div>
+        </div>
+        
+        <!-- Tab: Estatísticas -->
+        <div id="tab-stats" class="tab-content">
+            <h2><i class="fas fa-chart-bar"></i> Estatísticas do Sistema</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card-large">
+                    <h3><i class="fas fa-chart-line"></i> Evolução Diária</h3>
+                    <canvas id="dailyChart"></canvas>
+                </div>
+                
+                <div class="stat-card-large">
+                    <h3><i class="fas fa-album"></i> Distribuição por Álbum</h3>
+                    <canvas id="albumChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="admin-form">
+                <h3><i class="fas fa-database"></i> Backup de Dados</h3>
+                <p>Faça backup de todos os dados do sistema:</p>
+                
+                <div class="form-actions">
+                    <button class="btn btn-primary" onclick="exportData()">
+                        <i class="fas fa-download"></i> Exportar Dados
+                    </button>
+                    <button class="btn btn-secondary" onclick="importData()">
+                        <i class="fas fa-upload"></i> Importar Dados
+                    </button>
+                    <input type="file" id="importFile" accept=".json" style="display: none;">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tab: Sistema -->
+        <div id="tab-system" class="tab-content">
+            <h2><i class="fas fa-cog"></i> Configurações do Sistema</h2>
+            
+            <div class="admin-form">
+                <h3><i class="fas fa-bullseye"></i> Configurar Sistema de Metas</h3>
+                
+                <div class="form-group">
+                    <label for="goalDataCurrent">Progresso Atual da Meta</label>
+                    <input type="text" id="goalDataCurrent" 
+                           oninput="formatNumberInputAdmin(this)">
+                </div>
+                
+                <div class="form-group">
+                    <label for="goalDataTarget">Meta Atual</label>
+                    <input type="text" id="goalDataTarget" 
+                           oninput="formatNumberInputAdmin(this)">
+                </div>
+                
+                <button class="btn btn-primary" onclick="saveGoalData()">
+                    <i class="fas fa-save"></i> Atualizar Metas
+                </button>
+            </div>
+            
+            <div class="admin-form">
+                <h3><i class="fas fa-users"></i> Gerenciar Usuários</h3>
+                
+                <div class="admin-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Email</th>
+                                <th>Pontos</th>
+                                <th>Data de Cadastro</th>
+                                <th>Missões Completas</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTableBody">
+                            <!-- Usuários carregados por JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="admin-form">
+                <h3><i class="fas fa-trash-alt"></i> Manutenção</h3>
+                
+                <div class="form-actions">
+                    <button class="btn btn-danger" onclick="clearAllData()">
+                        <i class="fas fa-exclamation-triangle"></i> Limpar Todos os Dados
+                    </button>
+                    <button class="btn btn-secondary" onclick="resetDailyCounters()">
+                        <i class="fas fa-calendar"></i> Resetar Contadores Diários
+                    </button>
+                </div>
+                
+                <div class="danger-zone" style="margin-top: 2rem; padding: 1rem; background: rgba(244, 67, 54, 0.1); border-radius: var(--border-radius);">
+                    <h4><i class="fas fa-exclamation-circle"></i> Zona de Perigo</h4>
+                    <p>Estas ações não podem ser desfeitas:</p>
+                    
+                    <div class="danger-actions">
+                        <button class="btn btn-danger" onclick="deleteAllSongs()">
+                            <i class="fas fa-trash"></i> Excluir Todas as Músicas
+                        </button>
+                        <button class="btn btn-danger" onclick="deleteAllUsers()">
+                            <i class="fas fa-user-slash"></i> Excluir Todos os Usuários
+                        </button>
+                        <button class="btn btn-danger" onclick="resetEverything()">
+                            <i class="fas fa-bomb"></i> Resetar Site Completo
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3><i class="fas fa-music"></i> Selena Stream Tracker</h3>
+                <p>Acompanhe, participe e ajude a alcançar as metas de streams da Selena Gomez!</p>
+            </div>
+            <div class="footer-links">
+                <a href="index.html"><i class="fas fa-home"></i> Home</a>
+                <a href="termos.html"><i class="fas fa-file-contract"></i> Termos de Uso</a>
+                <a href="privacidade.html"><i class="fas fa-shield-alt"></i> Privacidade</a>
+                <a href="contato.html"><i class="fas fa-envelope"></i> Contato</a>
+                <a href="votacao.html"><i class="fas fa-vote-yea"></i> Votação</a>
+                <a href="calculadora.html"><i class="fas fa-calculator"></i> Calculadora</a>
+                <a href="#" onclick="showRanking()"><i class="fas fa-crown"></i> Ranking</a>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Selena Gomez Stream Tracker. Site não oficial criado por fãs.</p>
+                <p class="disclaimer">Este site não tem afiliação com Selena Gomez, Interscope Records ou Spotify.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/admin.js"></script>
+    <script src="js/login.js"></script>
+</body>
+</html>
