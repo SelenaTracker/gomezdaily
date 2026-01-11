@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscar Músicas - Selena Stream Tracker</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <i class="fas fa-music"></i>
+                    <span>Selena Stream Tracker</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="busca.html" class="active"><i class="fas fa-search"></i> Buscar Músicas</a></li>
+                    <li><a href="calculadora.html"><i class="fas fa-calculator"></i> Calculadora</a></li>
+                    <li><a href="votacao.html"><i class="fas fa-vote-yea"></i> Votação</a></li>
+                    <li><a href="admin.html"><i class="fas fa-user-cog"></i> Admin</a></li>
+                    <li><a href="#" id="loginBtn"><i class="fas fa-user"></i> Login</a></li>
+                </ul>
+                <div class="hamburger">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="search-section">
+            <h1><i class="fas fa-search"></i> Buscar Músicas</h1>
+            <p class="section-subtitle">Encontre informações detalhadas sobre todas as músicas da Selena Gomez</p>
+            
+            <div class="search-box">
+                <div class="search-input">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Digite o nome da música ou álbum...">
+                    <button class="btn btn-primary" onclick="clearSearch()">
+                        <i class="fas fa-times"></i> Limpar
+                    </button>
+                </div>
+                <p class="search-info">
+                    <i class="fas fa-info-circle"></i>
+                    Busca em tempo real - digite para filtrar a tabela abaixo
+                </p>
+            </div>
+            
+            <div class="songs-stats">
+                <div class="stat-badge">
+                    <i class="fas fa-headphones"></i>
+                    <span id="totalSongs">0</span>
+                    <small>Músicas</small>
+                </div>
+                <div class="stat-badge">
+                    <i class="fas fa-play-circle"></i>
+                    <span id="totalStreamsPage">0</span>
+                    <small>Streams totais</small>
+                </div>
+                <div class="stat-badge">
+                    <i class="fas fa-bullseye"></i>
+                    <span id="avgGoal">0</span>
+                    <small>Meta média</small>
+                </div>
+            </div>
+            
+            <div class="table-container">
+                <table id="songsTable">
+                    <thead>
+                        <tr>
+                            <th onclick="sortTable(0)">
+                                <i class="fas fa-music"></i> Música
+                                <span class="sort-arrow"></span>
+                            </th>
+                            <th onclick="sortTable(1)">
+                                <i class="fas fa-album"></i> Álbum
+                                <span class="sort-arrow"></span>
+                            </th>
+                            <th onclick="sortTable(2)">
+                                <i class="fas fa-user"></i> Artista
+                                <span class="sort-arrow"></span>
+                            </th>
+                            <th onclick="sortTable(3)">
+                                <i class="fas fa-chart-line"></i> Streams Totais
+                                <span class="sort-arrow"></span>
+                            </th>
+                            <th onclick="sortTable(4)">
+                                <i class="fas fa-calendar-day"></i> Hoje
+                                <span class="sort-arrow"></span>
+                            </th>
+                            <th onclick="sortTable(5)">
+                                <i class="fas fa-bullseye"></i> Meta
+                                <span class="sort-arrow"></span>
+                            </th>
+                            <th onclick="sortTable(6)">
+                                <i class="fas fa-clock"></i> Dias para Meta
+                                <span class="sort-arrow"></span>
+                            </th>
+                            <th><i class="fas fa-chart-bar"></i> Progresso</th>
+                        </tr>
+                    </thead>
+                    <tbody id="songsTableBody">
+                        <!-- Dados carregados por JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="table-info">
+                <p>
+                    <i class="fas fa-mouse-pointer"></i>
+                    Clique nos cabeçalhos para ordenar a tabela
+                </p>
+                <p id="filterInfo">Mostrando todas as músicas</p>
+            </div>
+        </section>
+        
+        <!-- Adsense Placeholder -->
+        <div class="adsense-ad">
+            <div class="ad-label">Publicidade</div>
+            <div class="ad-content">
+                <p>Espaço reservado para anúncios</p>
+                <small>O anúncio ajuda a manter o site funcionando</small>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3><i class="fas fa-music"></i> Selena Stream Tracker</h3>
+                <p>Acompanhe, participe e ajude a alcançar as metas de streams da Selena Gomez!</p>
+            </div>
+            <div class="footer-links">
+                <a href="index.html"><i class="fas fa-home"></i> Home</a>
+                <a href="termos.html"><i class="fas fa-file-contract"></i> Termos de Uso</a>
+                <a href="privacidade.html"><i class="fas fa-shield-alt"></i> Privacidade</a>
+                <a href="contato.html"><i class="fas fa-envelope"></i> Contato</a>
+                <a href="votacao.html"><i class="fas fa-vote-yea"></i> Votação</a>
+                <a href="calculadora.html"><i class="fas fa-calculator"></i> Calculadora</a>
+                <a href="#" onclick="showRanking()"><i class="fas fa-crown"></i> Ranking</a>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Selena Gomez Stream Tracker. Site não oficial criado por fãs.</p>
+                <p class="disclaimer">Este site não tem afiliação com Selena Gomez, Interscope Records ou Spotify.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/busca.js"></script>
+    <script src="js/login.js"></script>
+</body>
+</html>
