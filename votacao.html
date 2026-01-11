@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Votação - Selena Stream Tracker</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <i class="fas fa-music"></i>
+                    <span>Selena Stream Tracker</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="busca.html"><i class="fas fa-search"></i> Buscar Músicas</a></li>
+                    <li><a href="calculadora.html"><i class="fas fa-calculator"></i> Calculadora</a></li>
+                    <li><a href="votacao.html" class="active"><i class="fas fa-vote-yea"></i> Votação</a></li>
+                    <li><a href="admin.html"><i class="fas fa-user-cog"></i> Admin</a></li>
+                    <li><a href="#" id="loginBtn"><i class="fas fa-user"></i> Login</a></li>
+                </ul>
+                <div class="hamburger">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="voting-section">
+            <h1><i class="fas fa-vote-yea"></i> Sistema de Votação</h1>
+            <p class="section-subtitle">Ajude a escolher a música foco do dia!</p>
+            
+            <!-- Timer da Votação -->
+            <div class="voting-timer">
+                <div class="timer-header">
+                    <i class="fas fa-clock"></i>
+                    <h3>Votação Atual</h3>
+                    <span class="timer-status" id="timerStatus">Em andamento</span>
+                </div>
+                <div class="timer-display">
+                    <div class="time-unit">
+                        <span id="hours">48</span>
+                        <small>Horas</small>
+                    </div>
+                    <div class="time-separator">:</div>
+                    <div class="time-unit">
+                        <span id="minutes">00</span>
+                        <small>Minutos</small>
+                    </div>
+                    <div class="time-separator">:</div>
+                    <div class="time-unit">
+                        <span id="seconds">00</span>
+                        <small>Segundos</small>
+                    </div>
+                </div>
+                <p class="timer-info" id="timerInfo">
+                    Próxima votação termina hoje às 21:00 (Horário de Brasília)
+                </p>
+                <div class="timer-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="votingProgress"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Resultados Atuais -->
+            <div class="voting-results">
+                <h3><i class="fas fa-chart-pie"></i> Resultados Parciais</h3>
+                <div class="results-grid" id="resultsGrid">
+                    <!-- Resultados serão carregados por JavaScript -->
+                </div>
+                <div class="results-info">
+                    <p><i class="fas fa-user-check"></i> Total de votos: <span id="totalVotes">0</span></p>
+                    <p><i class="fas fa-users"></i> Votos hoje: <span id="votesToday">0</span></p>
+                    <p><i class="fas fa-music"></i> Vencedor atual: <span id="currentWinner">Carregando...</span></p>
+                </div>
+            </div>
+            
+            <!-- Área de Votação -->
+            <div class="voting-area" id="votingArea">
+                <div class="voting-header">
+                    <h3><i class="fas fa-check-circle"></i> Sua Votação</h3>
+                    <p>Escolha UMA música para focarmos hoje:</p>
+                </div>
+                
+                <div class="voting-options" id="votingOptions">
+                    <!-- Opções de votação serão carregadas por JavaScript -->
+                </div>
+                
+                <div class="voting-rules">
+                    <h4><i class="fas fa-info-circle"></i> Regras da Votação:</h4>
+                    <ul>
+                        <li>Cada usuário tem <strong>2 votos por dia</strong></li>
+                        <li>Você pode votar apenas em <strong>UMA música</strong></li>
+                        <li>A votação dura <strong>48 horas</strong></li>
+                        <li>Termina sempre às <strong>21:00 (Horário de Brasília)</strong></li>
+                        <li>A música mais votada vira o <strong>Foco do Dia</strong></li>
+                        <li>Votações começam sempre às <strong>segundas-feiras</strong></li>
+                    </ul>
+                </div>
+                
+                <div class="voting-actions">
+                    <button class="btn btn-primary" onclick="submitVote()" id="submitVoteBtn">
+                        <i class="fas fa-paper-plane"></i> Confirmar Voto
+                    </button>
+                    <button class="btn btn-secondary" onclick="clearVote()">
+                        <i class="fas fa-redo"></i> Limpar Escolha
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Histórico de Votações -->
+            <div class="voting-history">
+                <h3><i class="fas fa-history"></i> Histórico de Votações</h3>
+                <div class="history-list" id="votingHistory">
+                    <!-- Histórico será carregado por JavaScript -->
+                </div>
+            </div>
+            
+            <!-- Informações do Usuário -->
+            <div class="user-voting-info">
+                <div class="info-card">
+                    <i class="fas fa-user-circle"></i>
+                    <div class="info-content">
+                        <h4>Seus Votos Hoje</h4>
+                        <div class="user-stats">
+                            <div class="user-stat">
+                                <span id="userVotesToday">0</span>
+                                <small>Votos usados</small>
+                            </div>
+                            <div class="user-stat">
+                                <span id="userVotesRemaining">2</span>
+                                <small>Votos restantes</small>
+                            </div>
+                            <div class="user-stat">
+                                <span id="userTotalPoints">0</span>
+                                <small>Pontos ganhos</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="info-card">
+                    <i class="fas fa-trophy"></i>
+                    <div class="info-content">
+                        <h4>Prêmios por Votar</h4>
+                        <ul class="awards-list">
+                            <li><i class="fas fa-gem"></i> 2 pontos por voto</li>
+                            <li><i class="fas fa-crown"></i> Participação no ranking</li>
+                            <li><i class="fas fa-star"></i> Influência no foco do dia</li>
+                            <li><i class="fas fa-music"></i> Música escolhida por você!</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Adsense Placeholder -->
+        <div class="adsense-ad">
+            <div class="ad-label">Publicidade</div>
+            <div class="ad-content">
+                <p>Espaço reservado para anúncios</p>
+                <small>O anúncio ajuda a manter o site funcionando</small>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3><i class="fas fa-music"></i> Selena Stream Tracker</h3>
+                <p>Acompanhe, participe e ajude a alcançar as metas de streams da Selena Gomez!</p>
+            </div>
+            <div class="footer-links">
+                <a href="index.html"><i class="fas fa-home"></i> Home</a>
+                <a href="termos.html"><i class="fas fa-file-contract"></i> Termos de Uso</a>
+                <a href="privacidade.html"><i class="fas fa-shield-alt"></i> Privacidade</a>
+                <a href="contato.html"><i class="fas fa-envelope"></i> Contato</a>
+                <a href="votacao.html"><i class="fas fa-vote-yea"></i> Votação</a>
+                <a href="calculadora.html"><i class="fas fa-calculator"></i> Calculadora</a>
+                <a href="#" onclick="showRanking()"><i class="fas fa-crown"></i> Ranking</a>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Selena Gomez Stream Tracker. Site não oficial criado por fãs.</p>
+                <p class="disclaimer">Este site não tem afiliação com Selena Gomez, Interscope Records ou Spotify.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/votacao.js"></script>
+    <script src="js/login.js"></script>
+</body>
+</html>
