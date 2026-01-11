@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contato - Selena Stream Tracker</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <i class="fas fa-music"></i>
+                    <span>Selena Stream Tracker</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="busca.html"><i class="fas fa-search"></i> Buscar Músicas</a></li>
+                    <li><a href="calculadora.html"><i class="fas fa-calculator"></i> Calculadora</a></li>
+                    <li><a href="votacao.html"><i class="fas fa-vote-yea"></i> Votação</a></li>
+                    <li><a href="admin.html"><i class="fas fa-user-cog"></i> Admin</a></li>
+                    <li><a href="#" id="loginBtn"><i class="fas fa-user"></i> Login</a></li>
+                </ul>
+                <div class="hamburger">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="contact-section">
+            <h1><i class="fas fa-envelope"></i> Entre em Contato</h1>
+            <p class="section-subtitle">Tem dúvidas, sugestões ou encontrou algum problema? Entre em contato conosco!</p>
+            
+            <div class="contact-container">
+                <div class="contact-info">
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <div class="info-content">
+                            <h3>Sobre o Site</h3>
+                            <p>Este é um site não oficial criado por fãs para acompanhar as metas de streams da Selena Gomez. Não temos afiliação com a artista ou sua equipe.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="fas fa-question-circle"></i>
+                        </div>
+                        <div class="info-content">
+                            <h3>Perguntas Frequentes</h3>
+                            <div class="faq-item">
+                                <h4>Os dados de streams são oficiais?</h4>
+                                <p>Os dados são baseados em informações públicas e estimativas. Não garantimos 100% de precisão.</p>
+                            </div>
+                            <div class="faq-item">
+                                <h4>Como funcionam os pontos?</h4>
+                                <p>Pontos são ganhos completando missões diárias. O ranking é resetado semanalmente.</p>
+                            </div>
+                            <div class="faq-item">
+                                <h4>Posso sugerir novas funcionalidades?</h4>
+                                <p>Sim! Adoramos sugestões. Use o formulário de contato.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="info-content">
+                            <h3>Problemas Conhecidos</h3>
+                            <ul>
+                                <li>Dados podem não atualizar em tempo real</li>
+                                <li>O sistema de votação depende do horário do navegador</li>
+                                <li>Limpar o cache do navegador apaga seus dados</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <h3><i class="fas fa-paper-plane"></i> Formulário de Contato</h3>
+                    
+                    <form id="contactForm" onsubmit="return submitContactForm(event)">
+                        <div class="form-group">
+                            <label for="contactName">Seu Nome</label>
+                            <input type="text" id="contactName" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="contactEmail">Seu Email</label>
+                            <input type="email" id="contactEmail" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="contactSubject">Assunto</label>
+                            <select id="contactSubject" required>
+                                <option value="">Selecione...</option>
+                                <option value="bug">Reportar Bug</option>
+                                <option value="suggestion">Sugestão</option>
+                                <option value="data">Problema com Dados</option>
+                                <option value="feature">Nova Funcionalidade</option>
+                                <option value="other">Outro</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="contactMessage">Mensagem</label>
+                            <textarea id="contactMessage" rows="6" required></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="contactConsent" required>
+                                Concordo em compartilhar minhas informações para fins de contato
+                            </label>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane"></i> Enviar Mensagem
+                            </button>
+                            <button type="reset" class="btn btn-secondary">
+                                <i class="fas fa-eraser"></i> Limpar
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <div class="contact-alternative">
+                        <h4><i class="fas fa-comments"></i> Outras Formas de Contato</h4>
+                        <p>Você também pode:</p>
+                        <ul>
+                            <li>Reportar problemas diretamente no GitHub do projeto</li>
+                            <li>Discutir no fórum da comunidade de fãs</li>
+                            <li>Acompanhar atualizações nas nossas redes sociais</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="contact-status">
+                <div class="status-card">
+                    <i class="fas fa-clock"></i>
+                    <div>
+                        <h4>Tempo de Resposta</h4>
+                        <p>Normalmente respondemos em 24-48 horas</p>
+                    </div>
+                </div>
+                
+                <div class="status-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <div>
+                        <h4>Privacidade</h4>
+                        <p>Seus dados são usados apenas para responder seu contato</p>
+                    </div>
+                </div>
+                
+                <div class="status-card">
+                    <i class="fas fa-heart"></i>
+                    <div>
+                        <h4>Agradecimento</h4>
+                        <p>Obrigado por ajudar a melhorar nosso site!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3><i class="fas fa-music"></i> Selena Stream Tracker</h3>
+                <p>Acompanhe, participe e ajude a alcançar as metas de streams da Selena Gomez!</p>
+            </div>
+            <div class="footer-links">
+                <a href="index.html"><i class="fas fa-home"></i> Home</a>
+                <a href="termos.html"><i class="fas fa-file-contract"></i> Termos de Uso</a>
+                <a href="privacidade.html"><i class="fas fa-shield-alt"></i> Privacidade</a>
+                <a href="contato.html"><i class="fas fa-envelope"></i> Contato</a>
+                <a href="votacao.html"><i class="fas fa-vote-yea"></i> Votação</a>
+                <a href="calculadora.html"><i class="fas fa-calculator"></i> Calculadora</a>
+                <a href="#" onclick="showRanking()"><i class="fas fa-crown"></i> Ranking</a>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Selena Gomez Stream Tracker. Site não oficial criado por fãs.</p>
+                <p class="disclaimer">Este site não tem afiliação com Selena Gomez, Interscope Records ou Spotify.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/login.js"></script>
+    <script>
+        function submitContactForm(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('contactName').value;
+            const email = document.getElementById('contactEmail').value;
+            const subject = document.getElementById('contactSubject').value;
+            const message = document.getElementById('contactMessage').value;
+            
+            // Em um site real, aqui enviaria para um servidor
+            // Por enquanto, apenas mostra confirmação
+            
+            const subjectText = {
+                'bug': 'Reportar Bug',
+                'suggestion': 'Sugestão',
+                'data': 'Problema com Dados',
+                'feature': 'Nova Funcionalidade',
+                'other': 'Outro'
+            }[subject] || 'Contato';
+            
+            alert(`Obrigado, ${name}!\n\nSua mensagem sobre "${subjectText}" foi recebida.\n\nEm um site real, esta mensagem seria enviada para nosso email.`);
+            
+            document.getElementById('contactForm').reset();
+            
+            return false;
+        }
+        
+        function showRanking() {
+            window.location.href = 'index.html#ranking';
+        }
+    </script>
+</body>
+</html>
