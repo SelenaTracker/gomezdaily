@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Metas - Selena Stream Tracker</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <i class="fas fa-music"></i>
+                    <span>Selena Stream Tracker</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="busca.html"><i class="fas fa-search"></i> Buscar Músicas</a></li>
+                    <li><a href="calculadora.html" class="active"><i class="fas fa-calculator"></i> Calculadora</a></li>
+                    <li><a href="votacao.html"><i class="fas fa-vote-yea"></i> Votação</a></li>
+                    <li><a href="admin.html"><i class="fas fa-user-cog"></i> Admin</a></li>
+                    <li><a href="#" id="loginBtn"><i class="fas fa-user"></i> Login</a></li>
+                </ul>
+                <div class="hamburger">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="calculator-section">
+            <h1><i class="fas fa-calculator"></i> Calculadora de Metas</h1>
+            <p class="section-subtitle">Calcule quanto tempo falta para alcançar suas metas de streams</p>
+            
+            <div class="calculator-card">
+                <div class="calculator-instructions">
+                    <h3><i class="fas fa-lightbulb"></i> Como funciona:</h3>
+                    <ol>
+                        <li>Insira os streams totais atuais da música</li>
+                        <li>Defina a meta que deseja alcançar</li>
+                        <li>Informe a média diária de streams</li>
+                        <li>Clique em calcular para ver os resultados</li>
+                    </ol>
+                    <div class="tip">
+                        <i class="fas fa-info-circle"></i>
+                        <strong>Dica:</strong> Use pontos para separar milhares (ex: 198.951.352)
+                    </div>
+                </div>
+                
+                <div class="calculator-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="currentStreams">
+                                <i class="fas fa-chart-line"></i> Streams Atuais
+                            </label>
+                            <input type="text" id="currentStreams" 
+                                   placeholder="Ex: 198.951.352" 
+                                   oninput="formatNumberInput(this)">
+                            <small>Streams totais já alcançados</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="goalStreams">
+                                <i class="fas fa-bullseye"></i> Meta Desejada
+                            </label>
+                            <input type="text" id="goalStreams" 
+                                   placeholder="Ex: 200.000.000" 
+                                   oninput="formatNumberInput(this)">
+                            <small>Total de streams que deseja alcançar</small>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="dailyAverage">
+                                <i class="fas fa-calendar-day"></i> Média Diária
+                            </label>
+                            <input type="text" id="dailyAverage" 
+                                   placeholder="Ex: 125.000" 
+                                   oninput="formatNumberInput(this)">
+                            <small>Média de streams por dia</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="songSelect">
+                                <i class="fas fa-music"></i> Usar dados de uma música
+                            </label>
+                            <select id="songSelect" onchange="loadSongData()">
+                                <option value="">Selecione uma música...</option>
+                                <!-- Opções serão preenchidas por JavaScript -->
+                            </select>
+                            <small>Carregue dados automaticamente</small>
+                        </div>
+                    </div>
+                    
+                    <div class="calculator-actions">
+                        <button class="btn btn-primary" onclick="calculateDays()">
+                            <i class="fas fa-calculator"></i> Calcular Dias Restantes
+                        </button>
+                        <button class="btn btn-secondary" onclick="clearCalculator()">
+                            <i class="fas fa-eraser"></i> Limpar Campos
+                        </button>
+                        <button class="btn btn-secondary" onclick="useExampleData()">
+                            <i class="fas fa-magic"></i> Usar Exemplo
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="calculator-results" id="resultsContainer">
+                    <div class="results-placeholder">
+                        <i class="fas fa-chart-bar"></i>
+                        <p>Preencha os campos acima para ver os resultados</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="calculator-info">
+                <div class="info-card">
+                    <i class="fas fa-history"></i>
+                    <h4>Histórico de Cálculos</h4>
+                    <div id="calculationHistory">
+                        <!-- Histórico será carregado aqui -->
+                    </div>
+                </div>
+                
+                <div class="info-card">
+                    <i class="fas fa-chart-pie"></i>
+                    <h4>Estatísticas Rápidas</h4>
+                    <div class="quick-stats">
+                        <div class="quick-stat">
+                            <span id="avgDailySite">0</span>
+                            <small>Média diária do site</small>
+                        </div>
+                        <div class="quick-stat">
+                            <span id="totalGoalsSite">0</span>
+                            <small>Metas batidas</small>
+                        </div>
+                        <div class="quick-stat">
+                            <span id="activeGoalsSite">0</span>
+                            <small>Metas ativas</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Adsense Placeholder -->
+        <div class="adsense-ad">
+            <div class="ad-label">Publicidade</div>
+            <div class="ad-content">
+                <p>Espaço reservado para anúncios</p>
+                <small>O anúncio ajuda a manter o site funcionando</small>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3><i class="fas fa-music"></i> Selena Stream Tracker</h3>
+                <p>Acompanhe, participe e ajude a alcançar as metas de streams da Selena Gomez!</p>
+            </div>
+            <div class="footer-links">
+                <a href="index.html"><i class="fas fa-home"></i> Home</a>
+                <a href="termos.html"><i class="fas fa-file-contract"></i> Termos de Uso</a>
+                <a href="privacidade.html"><i class="fas fa-shield-alt"></i> Privacidade</a>
+                <a href="contato.html"><i class="fas fa-envelope"></i> Contato</a>
+                <a href="votacao.html"><i class="fas fa-vote-yea"></i> Votação</a>
+                <a href="calculadora.html"><i class="fas fa-calculator"></i> Calculadora</a>
+                <a href="#" onclick="showRanking()"><i class="fas fa-crown"></i> Ranking</a>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Selena Gomez Stream Tracker. Site não oficial criado por fãs.</p>
+                <p class="disclaimer">Este site não tem afiliação com Selena Gomez, Interscope Records ou Spotify.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/calculadora.js"></script>
+    <script src="js/login.js"></script>
+</body>
+</html>
