@@ -129,8 +129,8 @@ function updateAllStats() {
     const dailyTotal = songs.reduce((sum, song) => sum + song.dailyStreams, 0);
     const totalStreams = songs.reduce((sum, song) => sum + song.totalStreams, 0);
     
-    document.getElementById('dailyTotal')?.textContent = this.formatNumber(dailyTotal);
-    document.getElementById('totalStreams')?.textContent = this.formatNumber(totalStreams);
+    document.getElementById('dailyTotal')?.textContent = formatNumber(dailyTotal);
+    document.getElementById('totalStreams')?.textContent = formatNumber(totalStreams);
     
     // Atualizar divisão por artista
     if (artists["Selena Gomez"]) {
