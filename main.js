@@ -444,5 +444,11 @@ function loadInitialData() {
     }
 }
 
+// NO main.js, NO FINAL DO ARQUIVO, ADICIONE:
+window.MusicStorage = MusicStorage;
+window.UserSystem = UserSystem;
+window.formatNumber = formatNumber;
+window.updateAllStats = updateAllStats;
+
 // Chamar esta função quando você tiver os dados reais
 // loadInitialData();
